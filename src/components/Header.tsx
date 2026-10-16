@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { SITE } from "@/lib/site";
 
 const PROPERTY_LINKS = [
@@ -20,16 +20,11 @@ const INVESTMENT_LINKS = [
   { label: "Real Estate Ventures", path: "/investments" },
 ];
 
-const DESKTOP_LEFT = [
+const DESKTOP_MENU = [
   { label: "Contact Us", path: "/contact" },
   { label: "About", path: "/about" },
   { label: "Business Center", path: "/business-center" },
   { label: "Properties", path: "/properties" },
-];
-
-const DESKTOP_RIGHT = [
-  { label: "Contact Us", path: "/contact" },
-  { label: "About", path: "/about" },
   { label: "Investments", path: "/investments" },
 ];
 
@@ -44,14 +39,17 @@ export function Header() {
   const pathname = usePathname();
   const [desktopOpen, setDesktopOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [headerHidden, setHeaderHidden] = useState(false);
   const [accordion, setAccordion] = useState<"properties" | "investments" | null>(
     null,
   );
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     setDesktopOpen(false);
     setMobileOpen(false);
     setAccordion(null);
+    setHeaderHidden(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -66,6 +64,34 @@ export function Header() {
     if (!mobileOpen) setAccordion(null);
   }, [mobileOpen]);
 
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+
+    const onScroll = () => {
+      if (desktopOpen || mobileOpen) {
+        setHeaderHidden(false);
+        lastScrollY.current = window.scrollY;
+        return;
+      }
+
+      const currentY = window.scrollY;
+      const delta = currentY - lastScrollY.current;
+
+      if (currentY < 24) {
+        setHeaderHidden(false);
+      } else if (delta > 6) {
+        setHeaderHidden(true);
+      } else if (delta < -6) {
+        setHeaderHidden(false);
+      }
+
+      lastScrollY.current = currentY;
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [desktopOpen, mobileOpen]);
+
   const propertiesActive =
     pathname === "/properties" || pathname === "/business-center";
   const investmentsActive = pathname === "/investments";
@@ -79,6 +105,9 @@ export function Header() {
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
           borderBottom: "1px solid rgba(198,161,91,0.2)",
+          transform: headerHidden ? "translateY(-100%)" : "translateY(0)",
+          transition: "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
+          willChange: "transform",
         }}
       >
         <div
@@ -158,24 +187,11 @@ export function Header() {
             <MenuIconButton open onClick={() => setDesktopOpen(false)} />
           </div>
 
-          <div className="container-wide flex flex-1 items-center justify-between">
-            <div className="flex flex-col gap-12">
-              {DESKTOP_LEFT.map((item, i) => (
+          <div className="container-wide flex flex-1 items-center justify-center">
+            <div className="flex flex-col items-center gap-12 text-center">
+              {DESKTOP_MENU.map((item, i) => (
                 <Link
-                  key={`left-${item.label}`}
-                  href={item.path}
-                  onClick={() => setDesktopOpen(false)}
-                  className="fullscreen-nav-link animate-fade-up"
-                  style={{ animationDelay: `${0.15 + i * 0.08}s` }}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-            <div className="flex flex-col items-end gap-12 text-right">
-              {DESKTOP_RIGHT.map((item, i) => (
-                <Link
-                  key={`right-${item.label}`}
+                  key={item.label}
                   href={item.path}
                   onClick={() => setDesktopOpen(false)}
                   className="fullscreen-nav-link animate-fade-up"
@@ -295,7 +311,7 @@ function MenuIconButton({
       type="button"
       aria-label={open ? "Close menu" : "Open menu"}
       onClick={onClick}
-      className="inline-flex items-center justify-center p-0 text-[#f4f1ea]"
+      className="inline-flex items-center justify-center p-0 text-[#B79850] transition-colors duration-300 hover:text-white"
       style={{ background: "none", border: "none", cursor: "pointer" }}
     >
       <span

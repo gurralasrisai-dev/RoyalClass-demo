@@ -4,27 +4,30 @@ import { BusinessCarousel } from "@/components/BusinessCarousel";
 import { DiscoverCue } from "@/components/DiscoverCue";
 import { InvestmentsScroller } from "@/components/InvestmentsScroller";
 import { Reveal } from "@/components/Reveal";
-import { IMAGES, SITE } from "@/lib/site";
+import { SITE } from "@/lib/site";
 
 export default function HomePage() {
   return (
     <>
       <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f4f1ea]">
         <div className="absolute inset-0 z-0">
-          <Image
-            src={IMAGES.homeHero}
-            alt=""
+          <video
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ opacity: 0.55, filter: "brightness(0.95)" }}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
             aria-hidden
-            fill
-            priority
-            className="object-cover"
-            style={{ opacity: 0.22, filter: "brightness(0.85)" }}
-          />
+          >
+            <source src="/videos/hero-bg.mp4" type="video/mp4" />
+          </video>
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, rgba(244,241,234,0.25) 0%, rgba(244,241,234,0.6) 100%)",
+                "linear-gradient(180deg, rgba(232, 220, 196, 0.18) 0%, rgba(198, 161, 91, 0.22) 100%)",
             }}
           />
         </div>
@@ -40,7 +43,7 @@ export default function HomePage() {
               Building Better Spaces.
             </h1>
             <p
-              className="animate-fade-up delay-100 max-w-[640px] text-base leading-[1.8] text-[#5c564e] md:text-lg"
+              className="animate-fade-up delay-100 max-w-[640px] text-base leading-[1.8] text-black md:text-lg"
             >
               Royal Class is a diversified business group focused on Properties
               and Strategic Investments. We manage exceptional spaces, support
