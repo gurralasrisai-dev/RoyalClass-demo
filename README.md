@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Royal Class Group (Next.js)
 
-## Getting Started
+Next.js App Router recreation of the [Royal Class Group](https://royal-class-group.base44.app) Base44 React site.
 
-First, run the development server:
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Pages
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/` — Home
+- `/business-center` — Business Centres
+- `/properties` — Properties
+- `/investments` — Investments
+- `/about` — About
+- `/contact` — Contact
 
-## Learn More
+## Source note
 
-To learn more about Next.js, take a look at the following resources:
+Design, copy, colors, fonts, and assets were ported from the live Base44 app bundle (`appId: 69aa803e3e7f04cf85d0eb74`). To pull the original Vite/React source instead:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npx base44 login
+npx base44 eject --app-id 69aa803e3e7f04cf85d0eb74 -p ../base44-react -y
+```
