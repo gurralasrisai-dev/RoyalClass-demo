@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cairo, Fraunces, Outfit } from "next/font/google";
+import { BackToTop } from "@/components/BackToTop";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { SITE } from "@/lib/site";
@@ -64,6 +65,7 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
+        <BackToTop />
       </body>
     </html>
   );
